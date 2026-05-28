@@ -1,0 +1,6 @@
+node_modules/
+data/articles.db
+output/report.html
+.env
+.DS_Store
+Thumbs.db
