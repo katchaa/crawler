@@ -1,6 +1,6 @@
 # Echo. — News Crawler & Text Difficulty Analyzer
 
-Automatizovaný nástroj pro sběr článků z českých zpravodajských webů, analýzu obtížnosti textu a generování HTML reportu. Vznikl jako technická část projektu **Echo.** — antidezinformační kampaně organizace Zvol si info.
+Automatizovaný nástroj pro sběr článků z českých zpravodajských webů, analýzu obtížnosti textu a generování HTML reportu.
 
 ---
 
@@ -24,13 +24,13 @@ Automatizovaný nástroj pro sběr článků z českých zpravodajských webů, 
 
 ### Závislosti (npm)
 
-| Balíček         | Verze   | Účel                                       |
+| Packages        | Verze   | Účel                                       |
 | --------------- | ------- | ------------------------------------------ |
 | `sql.js`        | ^1.14.1 | SQLite v čistém JS (bez nativní kompilace) |
 | `rss-parser`    | ^3.13.0 | Parsování RSS/Atom kanálů                  |
 | `axios`         | ^1.16.1 | HTTP klient pro stahování článků           |
 | `cheerio`       | ^1.2.0  | Parsování a extrakce HTML obsahu           |
-| `robots-parser` | ^3.0.1  | Čtení a respektování robots.txt            |
+| `robots-parser` | ^3.0.1  | Čtení robots.txt                           |
 
 ---
 
@@ -179,7 +179,7 @@ Analýza probíhá v modulu `src/analyze.js` ve dvou krocích: nejprve tokenizac
 
 ### Vypočítané metriky
 
-| Metrika               | Popis                                                                  | Typické hodnoty v češtině                         |
+| Metrika               | Popis                                                                  |
 | --------------------- | ---------------------------------------------------------------------- | ------------------------------------------------- |
 | `avg_sentence_length` | Průměrný počet slov na větu                                            | 10–20 slov (zpravodajství), 20–35 (odborné texty) |
 | `avg_word_length`     | Průměrný počet znaků na slovo                                          | 4–5 (bulvár), 6–8 (odborný text)                  |
@@ -200,7 +200,7 @@ score = (
 ) × 100
 ```
 
-**Proč takové váhy?** Délka vět je považována za nejsilnější indikátor čtivosti textu (proto 35 %) — dlouhé souvětí klade větší nároky na čtenářovu pracovní paměť. Délka slov a podíl dlouhých slov (dohromady 50 %) zachycují složitost slovní zásoby, která je v češtině zvláště relevantní díky bohaté flexi. Slovní bohatost (TTR, 15 %) doplňuje obraz — text s vysokým podílem unikátních slov vyžaduje širší slovní zásobu čtenáře, ale u kratších článků přirozeně vychází vyšší, proto dostává nejnižší váhu.
+**Proč takové váhy?** Délka vět je považována za nejsilnější indikátor čtivosti textu (proto 35 %) — dlouhé souvětí klade větší nároky na čtenářovu pracovní paměť. Délka slov a podíl dlouhých slov (dohromady 50 %) zachycují složitost slovní zásoby. Slovní bohatost (TTR, 15 %) doplňuje obraz — text s vysokým podílem unikátních slov vyžaduje širší slovní zásobu čtenáře, ale u kratších článků přirozeně vychází vyšší, proto dostává nejnižší váhu.
 
 **Normalizace:** každá metrika je před součtem normalizována do rozsahu 0–1 pomocí `min(hodnota / maximum, 1)`, kde maximum odpovídá horní hranici typického rozsahu pro danou metriku (40 slov/větu, 10 znaků/slovo). Výsledek je pak vynásoben 100 pro lepší čitelnost.
 
